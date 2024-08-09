@@ -21,20 +21,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} main.cc)
 
-# ##############################################################################
-
-
-
-#find_package(unofficial-sodium CONFIG REQUIRED)
-#target_link_libraries(${PROJECT_NAME} PRIVATE unofficial-sodium::sodium)
-
-#add_subdirectory(libsodium) 
-#target_link_libraries(${PROJECT_NAME} PRIVATE libsodium)
-
-project(libsodium VERSION 1.0.2 LANGUAGES C CXX ASM)
-
-INCLUDE(CheckCCompilerFlag)
-
 #----------------------------------------------------------
 ######################### OPTIONS #########################
 #----------------------------------------------------------
@@ -132,19 +118,31 @@ if(NOT (sodium_USE_STATIC_LIBS EQUAL sodium_USE_STATIC_LIBS_LAST))
     set(sodium_USE_STATIC_LIBS_LAST ${sodium_USE_STATIC_LIBS} CACHE INTERNAL "internal change tracking variable")
 endif()
 
+
 # ##############################################################################
 # If you include the drogon source code locally in your project, use this method
 # to add drogon 
  add_subdirectory(drogon) 
  target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
+
+# add_subdirectory(seal) 
+# target_link_libraries(${PROJECT_NAME} PRIVATE seal)
 #
 # and comment out the following lines
 #find_package(Drogon CONFIG REQUIRED)
 #target_link_libraries(${PROJECT_NAME} PRIVATE Drogon::Drogon)
 find_package(SEAL 4.1.1 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE SEAL::seal)
-#find_package(Boost 1.69.0 REQUIRED)
-#target_link_libraries(${PROJECT_NAME} PRIVATE Boost::boost)
+find_package(Boost 1.76.0 REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE Boost::boost)
+#find_package(unofficial-sodium CONFIG REQUIRED)
+#target_link_libraries(${PROJECT_NAME} PRIVATE unofficial-sodium::sodium)
+
+
+project(libsodium VERSION 1.0.2 LANGUAGES C CXX ASM)
+
+INCLUDE(CheckCCompilerFlag)
+
 # ##############################################################################
 
 if (CMAKE_CXX_STANDARD LESS 17)
